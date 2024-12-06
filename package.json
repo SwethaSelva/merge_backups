@@ -1,0 +1,20 @@
+{
+  "name": "union_folder",
+  "email": "swethalakshmideepak@gmail.com",
+  "version": "1.0.0",
+  "description": "Combine the folder and remove the dulpicate files based on the file name",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SwethaSelva/google_related_scripts.git"
+  },
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Swetha Selvakumaran",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  }
+}
