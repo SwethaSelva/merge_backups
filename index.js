@@ -2,26 +2,33 @@ let fs = require('fs');
 const path = require('path');
 
 /**
- * Eliminate the duplicate and merge old to recent backup
+ * Function to merge two directories - Eliminate the duplicate and merge old to recent backup
  * @param {String} recentBackupPath 
  * @param {String} oldBackupPath 
  */
-function mergeTwoBackups(recentBackupPath, oldBackupPath) {
-  if (!fs.existsSync(oldBackupPath)) return null;
+function mergeTwoFolders(folderAPath, folderBPath) {
+  if (!fs.existsSync(folderBPath)) return null; // Exit if second folder doesn't exist
 
-  let oldBackupContents = fs.readdirSync(oldBackupPath, { withFileTypes: true });
-  oldBackupContents.forEach(file => {
-    let oldFilePath = path.join(oldBackupPath, file.name);
-    let recentFilePath = path.join(recentBackupPath, file.name);
+  // Read contents of the second folder
+  fs.readdirSync(folderBPath, { withFileTypes: true }).forEach(file => {
+    const folderBFilePath = path.join(folderBPath, file.name);
+    const folderAFilePath = path.join(folderAPath, file.name);
 
     if (file.isDirectory()) {
-      if (!fs.existsSync(recentFilePath)) fs.mkdirSync(recentFilePath);
-      mergeTwoBackups(recentFilePath, oldFilePath);
+      // Ensure directory exists in the first folder
+      if (!fs.existsSync(folderAFilePath)) fs.mkdirSync(folderAFilePath);
+      // Recursively merge subdirectories
+      mergeTwoFolders(folderAFilePath, folderBFilePath);
     } else {
-      fs.renameSync(oldFilePath, recentFilePath);
+      // If file doesn't exist in the first folder, move it
+      if (!fs.existsSync(folderAFilePath)) {
+        fs.renameSync(folderBFilePath, folderAFilePath);
+      }
     }
   });
-  fs.rmSync(oldBackupPath, { recursive: true });
+
+  // Cleanup: Remove the second folder after merging
+  fs.rmSync(folderBPath, { recursive: true, force: true });
 }
 
-mergeTwoBackups("../../backup copy/picture from drive", "../../backup copy/Pictures");
+mergeTwoFolders("../../backup copy/picture from drive", "../../backup copy/Pictures");

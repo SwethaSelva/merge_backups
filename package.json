@@ -1,5 +1,5 @@
 {
-  "name": "union_folder",
+  "name": "merge_backup",
   "email": "swethalakshmideepak@gmail.com",
   "version": "1.0.0",
   "description": "Combine the folder and remove the dulpicate files based on the file name",
@@ -10,6 +10,7 @@
   },
   "type": "commonjs",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Swetha Selvakumaran",
